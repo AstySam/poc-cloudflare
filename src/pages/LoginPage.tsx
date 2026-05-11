@@ -1,3 +1,12 @@
+/*
+ * Filename: /Users/ecg/Documents/GitHub/poc-better-auth/src/pages/LoginPage.tsx
+ * Path: /Users/ecg/Documents/GitHub/poc-better-auth
+ * Created Date: Monday, May 11th 2026, 11:08:12 am
+ * Author: Sam ASTY
+ *
+ * Copyright (c) 2026 H2V Solutions
+ */
+
 import { CSSProperties, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authClient } from "@/utils/auth-client";
@@ -59,7 +68,7 @@ export default function LoginPage() {
 
     const result = await authClient.signIn.social({
       provider: "github",
-      callbackURL: `${window.location.origin}/chat`,
+      callbackURL: "http://localhost:3000/chat",
     });
 
     const { error: socialError } = result;
