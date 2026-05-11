@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -16,28 +16,34 @@ export default function RootLayout() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const segments = useSegments();
-  // Track whether we have ever received a confirmed session, to avoid
-  // redirecting to /login during the brief re-fetch window after sign-in.
-  const confirmedNoSession = useRef(false);
 
   useEffect(() => {
-    if (isPending) {
-      confirmedNoSession.current = false;
-      return;
-    }
-
+    if (isPending) return;
     const inAuthScreen = segments[0] === "login" || segments[0] === "register";
-
-    if (!session) {
-      confirmedNoSession.current = true;
-    }
-
-    if (!session && confirmedNoSession.current && !inAuthScreen) {
-      router.replace("/login");
-    } else if (session && inAuthScreen) {
+    // Only redirect to chat if session exists and user is on an auth screen.
+    // Redirect to login is handled by chat.tsx itself to avoid race conditions.
+    if (session && inAuthScreen) {
       router.replace("/chat");
     }
   }, [session, isPending, segments]);
+
+  return (
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="register" options={{ headerShown: false }} />
+        <Stack.Screen name="chat" options={{ headerShown: false }} />
+        <Stack.Screen name="welcome" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="modal"
+          options={{ presentation: "modal", title: "Modal" }}
+        />
+      </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>
+  );
+}
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

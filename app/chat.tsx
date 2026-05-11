@@ -1,4 +1,4 @@
-import { signOut, useSession } from '@/utils/auth-client';
+import { signOut, useSession } from "@/utils/auth-client";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -14,7 +14,7 @@ import {
   View,
 } from "react-native";
 
-import { API_BASE } from '@/utils/api';
+import { API_BASE } from "@/utils/api";
 
 const API = API_BASE;
 
@@ -22,6 +22,13 @@ export default function ChatScreen() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const pseudo = session?.user?.name ?? "anonymous";
+
+  /* ── guard: redirect to login if unauthenticated ───────── */
+  useEffect(() => {
+    if (!isPending && !session) {
+      router.replace("/login");
+    }
+  }, [session, isPending]);
 
   /* ── rooms sidebar ─────────────────────────────────────── */
   const [rooms, setRooms] = useState<string[]>([]);
