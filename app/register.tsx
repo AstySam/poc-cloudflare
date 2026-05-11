@@ -40,6 +40,7 @@ export default function RegisterScreen() {
         setError(result.error.message ?? "Registration failed");
       } else {
         console.log("[RegisterScreen] Sign-up succeeded — redirecting to chat");
+        router.dismissAll();
         router.replace("/chat");
       }
     } catch (e: any) {

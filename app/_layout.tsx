@@ -11,10 +11,6 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useSession } from "@/utils/auth-client";
 
-export const unstable_settings = {
-  anchor: "login",
-};
-
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const { data: session, isPending } = useSession();
