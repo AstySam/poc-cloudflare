@@ -40,7 +40,7 @@ export default function RegisterScreen() {
         setError(result.error.message ?? "Registration failed");
       } else {
         console.log("[RegisterScreen] Sign-up succeeded — redirecting to chat");
-        // Navigation is handled by _layout.tsx once useSession() updates
+        router.replace("/chat");
       }
     } catch (e: any) {
       console.error("[RegisterScreen] Unexpected error:", e);

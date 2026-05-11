@@ -5,11 +5,11 @@ import {
 } from "@react-navigation/native";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useSession } from '@/utils/auth-client';
+import { useSession } from "@/utils/auth-client";
 
 export const unstable_settings = {
   anchor: "login",
@@ -20,18 +20,25 @@ export default function RootLayout() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const segments = useSegments();
+  // Track whether we have ever received a confirmed session, to avoid
+  // redirecting to /login during the brief re-fetch window after sign-in.
+  const confirmedNoSession = useRef(false);
 
   useEffect(() => {
-    if (isPending) return;
+    if (isPending) {
+      confirmedNoSession.current = false;
+      return;
+    }
 
     const inAuthScreen = segments[0] === "login" || segments[0] === "register";
 
-    if (!session && !inAuthScreen) {
+    if (!session) {
+      confirmedNoSession.current = true;
+    }
+
+    if (!session && confirmedNoSession.current && !inAuthScreen) {
       router.replace("/login");
-    } else if (
-      session &&
-      (segments[0] === "login" || segments[0] === "register")
-    ) {
+    } else if (session && inAuthScreen) {
       router.replace("/chat");
     }
   }, [session, isPending, segments]);
