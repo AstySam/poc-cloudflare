@@ -1,0 +1,61 @@
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: #0f0f0f;
+  color: #efefef;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Chat two-column layout */
+.chat-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #0f0f0f;
+}
+
+/* Mobile: stack sidebar on top */
+@media (max-width: 640px) {
+  .chat-root {
+    flex-direction: column;
+  }
+
+  .chat-root aside {
+    width: 100% !important;
+    height: auto;
+    border-right: none !important;
+    border-bottom: 1px solid #2a2a2a;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem !important;
+  }
+}
