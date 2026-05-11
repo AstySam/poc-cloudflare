@@ -1,6 +1,6 @@
 import { CSSProperties, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { authClient } from '@/utils/auth-client';
+import { authClient } from "@/utils/auth-client";
 
 /* ── dark theme tokens ─────────────────────────────── */
 const T = {
@@ -59,7 +59,7 @@ export default function LoginPage() {
 
     const result = await authClient.signIn.social({
       provider: "github",
-      callbackURL: "http://localhost:3000/chat",
+      callbackURL: `${window.location.origin}/chat`,
     });
 
     const { error: socialError } = result;

@@ -1,4 +1,4 @@
-import { signUp } from '@/utils/auth-client';
+import { signUp } from "@/utils/auth-client";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -40,7 +40,7 @@ export default function RegisterScreen() {
         setError(result.error.message ?? "Registration failed");
       } else {
         console.log("[RegisterScreen] Sign-up succeeded — redirecting to chat");
-        router.replace("/chat");
+        // Navigation is handled by _layout.tsx once useSession() updates
       }
     } catch (e: any) {
       console.error("[RegisterScreen] Unexpected error:", e);

@@ -1,4 +1,4 @@
-import { signIn } from '@/utils/auth-client';
+import { signIn } from "@/utils/auth-client";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -26,9 +26,8 @@ export default function LoginScreen() {
       const result = await signIn.email({ email, password });
       if (result.error) {
         setError(result.error.message ?? "Login failed");
-      } else {
-        router.replace("/chat");
       }
+      // Navigation is handled by _layout.tsx once useSession() updates
     } catch (e: any) {
       setError(e?.message ?? "An unexpected error occurred");
     } finally {
