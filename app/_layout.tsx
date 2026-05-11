@@ -23,15 +23,21 @@ export default function RootLayout() {
     // Only redirect to chat if session exists and user is on an auth screen.
     // Redirect to login is handled by chat.tsx itself to avoid race conditions.
     if (session && inAuthScreen) {
-      router.replace("/chat");
+      router.replace("/dashboard");
     }
   }, [session, isPending, segments]);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack initialRouteName="index">
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="register" options={{ headerShown: false }} />
+        <Stack.Screen name="dashboard" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="account"
+          options={{ headerShown: false, title: "Mon compte" }}
+        />
         <Stack.Screen name="chat" options={{ headerShown: false }} />
         <Stack.Screen name="welcome" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

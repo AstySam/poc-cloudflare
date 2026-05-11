@@ -8,7 +8,7 @@ export default function Index() {
   if (isPending) return null;
 
   if (session) {
-    return <Redirect href="/chat" />;
+    return <Redirect href="/dashboard" />;
   }
 
   return <Redirect href="/login" />;

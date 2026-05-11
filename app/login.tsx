@@ -27,7 +27,7 @@ export default function LoginScreen() {
       if (result.error) {
         setError(result.error.message ?? "Login failed");
       } else {
-        router.replace("/chat");
+        router.replace("/dashboard");
       }
     } catch (e: any) {
       setError(e?.message ?? "An unexpected error occurred");

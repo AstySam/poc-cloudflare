@@ -39,8 +39,10 @@ export default function RegisterScreen() {
         });
         setError(result.error.message ?? "Registration failed");
       } else {
-        console.log("[RegisterScreen] Sign-up succeeded — redirecting to chat");
-        router.replace("/chat");
+        console.log(
+          "[RegisterScreen] Sign-up succeeded — redirecting to dashboard",
+        );
+        router.replace("/dashboard");
       }
     } catch (e: any) {
       console.error("[RegisterScreen] Unexpected error:", e);

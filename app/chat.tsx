@@ -30,6 +30,18 @@ export default function ChatScreen() {
     }
   }, [session, isPending]);
 
+  /* ── leave room ─────────────────────────────── */
+  function handleLeaveRoom() {
+    if (wsRef.current) {
+      wsRef.current.close();
+      wsRef.current = null;
+    }
+    setJoinedRoom(null);
+    setMessages([]);
+    setActiveUsers("");
+    setRoomInput("");
+  }
+
   /* ── rooms sidebar ─────────────────────────────────────── */
   const [rooms, setRooms] = useState<string[]>([]);
 
@@ -255,6 +267,12 @@ export default function ChatScreen() {
         />
 
         <View style={styles.sidebarFooter}>
+          <Pressable
+            style={styles.dashboardBtn}
+            onPress={() => router.push("/dashboard")}
+          >
+            <Text style={styles.dashboardBtnText}>🏠 Dashboard</Text>
+          </Pressable>
           <Text style={styles.username} numberOfLines={1}>
             {pseudo}
           </Text>
@@ -308,10 +326,21 @@ export default function ChatScreen() {
         ) : (
           /* Chat panel */
           <View style={styles.chatPanel}>
-            {/* Active users */}
+            {/* Room header with leave button */}
             <View style={styles.usersBar}>
-              <Text style={styles.usersLabel}>Utilisateurs actifs : </Text>
-              <Text style={styles.usersValue}>{activeUsers || "…"}</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.usersLabel}>Utilisateurs actifs : </Text>
+                <Text style={styles.usersValue}>{activeUsers || "…"}</Text>
+              </View>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.leaveBtn,
+                  pressed && styles.btnPressed,
+                ]}
+                onPress={handleLeaveRoom}
+              >
+                <Text style={styles.leaveBtnText}>Quitter</Text>
+              </Pressable>
             </View>
 
             {/* Messages */}
@@ -528,6 +557,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  leaveBtnText: {
+    color: "#f87171",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  leaveBtn: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#f87171",
+    alignItems: "center",
+  },
+  dashboardBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#0070f3",
+    alignItems: "center",
+  },
+  dashboardBtnText: {
+    fontSize: 12,
+    color: "#0070f3",
+  },
   /* shared */
   input: {
     padding: 8,
