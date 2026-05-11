@@ -27,7 +27,6 @@ export default function LoginScreen() {
       if (result.error) {
         setError(result.error.message ?? "Login failed");
       } else {
-        router.dismissAll();
         router.replace("/chat");
       }
     } catch (e: any) {
